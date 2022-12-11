@@ -18,13 +18,12 @@ jobs:
     steps:
     - uses: actions/checkout@v3
 
-    - name: Build the Docker image
-      run: docker build . --file Dockerfile --tag rclone:$(date +%s)
-
-    - name: Publish to Docker Hub
-      uses: docker/build-push-action@v1
+    - name: Build and push to Docker Hub
+      uses: docker/build-push-action@v3
       with:
-        username: ${{ secrets.DOCKER_USERNAME }}
-        password: ${{ secrets.DOCKER_PASSWORD }}
-        repository: l4t3b0/rclone
-        tags: latest, ${{ github.run_number }}
+        context: .
+        platforms: linux/amd64,linux/arm64
+        push: true
+        tags: |
+          l4t3b0/rclone:latest
+          l4t3b0/rclone:${{ github.run_number}}
