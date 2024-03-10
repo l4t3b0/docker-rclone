@@ -38,8 +38,8 @@ RUN URL=https://downloads.rclone.org/${RCLONE_VERSION}/rclone-${RCLONE_VERSION}-
   && rm -r /tmp/rclone*
 
 RUN mkdir ${RCLONE_CONFIG_DIR}
-RUN mkdir /var/run/rclone && chown ${PUID}:${PGID} ${RCLONE_PID_DIR} && chmod 775 ${RCLONE_PID_DIR}
-RUN mkdir /var/log/rclone && chown ${PUID}:${PGID} ${RCLONE_LOG_DIR} && chmod 775 ${RCLONE_LOG_DIR}
+RUN mkdir ${RCLONE_PID_DIR} && chown ${PUID}:${PGID} ${RCLONE_PID_DIR} && chmod 775 ${RCLONE_PID_DIR}
+RUN mkdir ${RCLONE_LOG_DIR} && chown ${PUID}:${PGID} ${RCLONE_LOG_DIR} && chmod 775 ${RCLONE_LOG_DIR}
 
 COPY --chmod 555 entrypoint.sh /
 COPY --chmod 555 \
