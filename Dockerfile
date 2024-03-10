@@ -33,7 +33,7 @@ RUN URL=https://downloads.rclone.org/${RCLONE_VERSION}/rclone-${RCLONE_VERSION}-
   && rm -r /tmp/rclone*
 
 RUN mkdir /etc/rclone
-RUN mkdir /var/lib/rclone && chown ${PUID}:${PGID} /var/lib/rclone && chmod 775 /var/lib/rclone
+RUN mkdir /var/run/rclone && chown ${PUID}:${PGID} /var/run/rclone && chmod 775 /var/run/rclone
 RUN mkdir /var/log/rclone && chown ${PUID}:${PGID} /var/log/rclone && chmod 775 /var/log/rclone
 
 COPY crontab-helper.sh /usr/bin/
