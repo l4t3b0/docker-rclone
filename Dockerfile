@@ -37,6 +37,9 @@ RUN mkdir /var/lib/rclone && chown ${PUID}:${PGID} /var/lib/rclone && chmod 775 
 RUN mkdir /var/log/rclone && chown ${PUID}:${PGID} /var/log/rclone && chmod 775 /var/log/rclone
 
 COPY entrypoint.sh /
+COPY environment.sh /usr/bin/
+COPY healthchecks.io.sh /usr/bin/
+COPY rclone.sh /usr/bin/
 COPY rclone-sync.sh /usr/bin/
 COPY rclone-sync-abort.sh /usr/bin/
 
