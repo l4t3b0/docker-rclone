@@ -53,7 +53,7 @@ RCLONE_PID_DIR=${RCLONE_PID_DIR:=/var/run/rclone}
 if [ ! -d ${RCLONE_PID_DIR} ]; then
   echo "ERROR: rclone pid directory '${RCLONE_PID_DIR}' does not exist"
   exit -3
-elif [ ! -w ${RCLONE_LOG_DIR} ]; then
+elif [ ! -w ${RCLONE_PID_DIR} ]; then
   echo "ERROR: rclone pid directory '${RCLONE_PID_DIR}' exists, but write permission is not granted"
   exit -4
 fi

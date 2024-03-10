@@ -9,12 +9,17 @@ ARG ARCH=amd64
 ENV RCLONE_SRC=
 
 ENV RCLONE_CMD=sync
-ENV RCLONE_CONFIG="--config /etc/rclone/rclone.conf"
+ENV RCLONE_CONFIG_DIR=/etc/rclone
+ENV RCLONE_CONFIG_FILE=${RCLONE_CONFIG_DIR}/rclone.conf
+ENV RCLONE_DST=/data
+ENV RCLONE_EXEC=/usr/bin/rclone
+ENV RCLONE_LOG_DIR=/var/log/rclone
+ENV RCLONE_LOG_LEVEL=INFO
+ENV RCLONE_LOG_ROTATE=30
+ENV RCLONE_PID_DIR=/var/run/rclone
+ENV RCLONE_PID_FILE=${RCLONE_PID_DIR}/rclone.pid
 
-ENV LOG_ENABLED=
-ENV LOG_ROTATE=
-
-ENV CRON_EXPR=
+ENV CRON_EXPR=@weekly
 
 ENV HEALTHCHECKS_IO_URL=
 
@@ -32,17 +37,19 @@ RUN URL=https://downloads.rclone.org/${RCLONE_VERSION}/rclone-${RCLONE_VERSION}-
   && mv /tmp/rclone-*-linux-${ARCH}/rclone* /usr/bin \
   && rm -r /tmp/rclone*
 
-RUN mkdir /etc/rclone
-RUN mkdir /var/run/rclone && chown ${PUID}:${PGID} /var/run/rclone && chmod 775 /var/run/rclone
-RUN mkdir /var/log/rclone && chown ${PUID}:${PGID} /var/log/rclone && chmod 775 /var/log/rclone
+RUN mkdir ${RCLONE_CONFIG_DIR}
+RUN mkdir /var/run/rclone && chown ${PUID}:${PGID} ${RCLONE_PID_DIR} && chmod 775 ${RCLONE_PID_DIR}
+RUN mkdir /var/log/rclone && chown ${PUID}:${PGID} ${RCLONE_LOG_DIR} && chmod 775 ${RCLONE_LOG_DIR}
 
-COPY crontab-helper.sh /usr/bin/
-COPY entrypoint.sh /
-COPY environment.sh /usr/bin/
-COPY healthchecks.io.sh /usr/bin/
-COPY rclone.sh /usr/bin/
-COPY rclone-sync.sh /usr/bin/
-COPY rclone-sync-abort.sh /usr/bin/
+COPY --chmod 555 entrypoint.sh /
+COPY --chmod 555 \
+  crontab-helper.sh \
+  environment.sh \
+  healthchecks.io.sh \
+  rclone.sh \
+  rclone-sync.sh \
+  rclone-sync-abort.sh \
+  /usr/bin/
 
 VOLUME ["/etc/rclone"]
 VOLUME ["/var/log/rclone"]
