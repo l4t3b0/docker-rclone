@@ -41,8 +41,8 @@ RUN mkdir ${RCLONE_CONFIG_DIR}
 RUN mkdir ${RCLONE_PID_DIR} && chown ${PUID}:${PGID} ${RCLONE_PID_DIR} && chmod 775 ${RCLONE_PID_DIR}
 RUN mkdir ${RCLONE_LOG_DIR} && chown ${PUID}:${PGID} ${RCLONE_LOG_DIR} && chmod 775 ${RCLONE_LOG_DIR}
 
-COPY --chmod 555 entrypoint.sh /
-COPY --chmod 555 \
+COPY --chmod=555 entrypoint.sh /
+COPY --chmod=555 \
   crontab-helper.sh \
   environment.sh \
   healthchecks.io.sh \
