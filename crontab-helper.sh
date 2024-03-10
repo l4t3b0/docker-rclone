@@ -24,11 +24,7 @@ crontab_add() {
 }
 
 crond_start() {
-  rm -f /tmp/sync.log
   rm -f /tmp/crond.log
-
-  touch /tmp/sync.log
-  touch /tmp/crond.log
 
   echo "INFO: Starting crond ..."
   crond -b -l 0 -L /tmp/crond.log
@@ -36,5 +32,5 @@ crond_start() {
 }
 
 crond_tail() {
-  tail -F /tmp/crond.log /tmp/sync.log
+  tail -F /tmp/crond.log
 }
