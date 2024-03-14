@@ -1,7 +1,6 @@
 #!/bin/bash
 
 #RCLONE_SRC
-#RCLONE_OPTS
 
 RCLONE_CONFIG_FILE=${RCLONE_CONFIG_FILE:=/etc/rclone/rclone.conf}
 if [ ! -f ${RCLONE_CONFIG_FILE} ]; then
@@ -26,6 +25,8 @@ if [[ ! ${RCLONE_CMD} =~ (copy|move|sync) ]]; then
   echo "ERROR: rclone command '${RCLONE_CMD}' is not supported by this container, please use sync/copy/move. Stopping."
   exit -5
 fi
+
+#RCLONE_CMD_OPTS
 
 RCLONE_DST=${RCLONE_DST:=/data}
 if [ ! -d ${RCLONE_DST} ]; then
@@ -75,7 +76,7 @@ is_remote_exists() {
   then
     return_code=1
   else
-    CMD="${RCLONE_EXEC} --max-depth 1 lsf '${remote}' --config ${RCLONE_CONFIG_FILE}"
+    CMD="${RCLONE_EXEC} ${RCLONE_CMD_OPTS} --max-depth 1 lsf '${remote}' --config ${RCLONE_CONFIG_FILE}"
 
     echo "INFO: Executing: ${CMD}"
     set +e
@@ -88,7 +89,7 @@ is_remote_exists() {
 }
 
 rclone_cmd_exec() {
-  CMD="${RCLONE_EXEC} ${RCLONE_CMD} '${RCLONE_SRC}' '${RCLONE_DST}'"
+  CMD="${RCLONE_EXEC} ${RCLONE_CMD} ${RCLONE_CMD_OPTS} '${RCLONE_SRC}' '${RCLONE_DST}'"
   CMD="${CMD} --config '${RCLONE_CONFIG_FILE}'"
 
   if [[ ${RCLONE_LOG_LEVEL} != "NONE" ]]
