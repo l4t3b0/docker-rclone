@@ -43,7 +43,8 @@ A few environment variables allow you to customize the behavior of rclone:
 * `RCLONE_SRC` source location for `rclone sync/copy/move` command.
 * `RCLONE_DST` destination location for `rclone sync/copy/move` command. Defaults to `/data`
 * `RCLONE_CMD` set variable to `sync` `copy` or `move`  when running rclone. Defaults to `sync`
-* `RCLONE_CMD_OPTS` additional options for `rclone sync/copy/move` command. Defaults to ``* `RCLONE_CONFIG_DIR` set the directory of the configuration file. Defaults to `/etc/rclone`
+* `RCLONE_CMD_OPTS` additional options for `rclone sync/copy/move` command. Defaults to ``
+* `RCLONE_CONFIG_DIR` set the directory of the configuration file. Defaults to `/etc/rclone`
 * `RCLONE_CONFIG_FILE` set the location of the configuration file. Defaults to `${RCLONE_CONFIG_DIR}/rclone.conf`
 * `RCLONE_LOG_DIR` set the directory of the logging directory. Defaults to `/var/log/rclone`
 * `RCLONE_LOG_LEVEL` set the logging level of the command rclone. Possible values are: `DEBUG/INFO/NOTICE/ERROR`. Defaults to `INFO`
