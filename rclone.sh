@@ -1,6 +1,8 @@
 #!/bin/bash
 
 #RCLONE_SRC
+#RCLONE_DST
+
 
 RCLONE_CONFIG_FILE=${RCLONE_CONFIG_FILE:=/etc/rclone/rclone.conf}
 if [ ! -f ${RCLONE_CONFIG_FILE} ]; then
@@ -29,12 +31,6 @@ if [[ ! ${RCLONE_CMD} =~ (copy|move|sync) ]]; then
 fi
 
 #RCLONE_CMD_OPTS
-
-RCLONE_DST=${RCLONE_DST:=/data}
-if [ ! -d ${RCLONE_DST} ]; then
-  echo "ERROR: rclone destination directory '${RCLONE_DST}' does not exist"
-  exit -6
-fi
 
 RCLONE_LOG_LEVEL=${RCLONE_LOG_LEVEL:=INFO}
 if [[ ! ${RCLONE_LOG_LEVEL} =~ (NONE|DEBUG|INFO|NOTICE|ERROR) ]]; then
