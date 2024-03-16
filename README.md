@@ -39,7 +39,7 @@ $ docker run --rm -it -v $(pwd)/config:/etc/rclone l4t3b0/rclone
 
 A few environment variables allow you to customize the behavior of rclone:
 
-* `ENV RCLONE_EXEC` set the binary executable file location. Defaults to `/usr/bin/rclone`
+* `RCLONE_EXEC` set the binary executable file location. Defaults to `/usr/bin/rclone`
 * `RCLONE_SRC` source location for `rclone sync/copy/move` command.
 * `RCLONE_DST` destination location for `rclone sync/copy/move` command. Defaults to `/data`
 * `RCLONE_CMD` set variable to `sync` `copy` or `move`  when running rclone. Defaults to `sync`
