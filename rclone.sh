@@ -98,7 +98,7 @@ rclone_cmd_exec() {
   then
     d=$(date +%Y_%m_%d-%H_%M_%S)
     RCLONE_LOG_FILE="${RCLONE_LOG_DIR}/rclone-$d.log"
-    CMD="${CMD} --log-file=${RCLONE_LOG_FILE} --log-level ${RCLONE_LOG_LEVEL}"
+    CMD="${CMD} --log-file='${RCLONE_LOG_FILE}' --log-level ${RCLONE_LOG_LEVEL}"
   fi
 
   echo "INFO: Executing: ${CMD}"
@@ -115,6 +115,8 @@ rotate_logs() {
   if [ ! -z "${RCLONE_LOG_ROTATE##*[!0-9]*}" ]
   then
     echo "INFO: Removing logs older than ${RCLONE_LOG_ROTATE} days" 
-    touch ${RCLONE_LOG_DIR}/tmp.log && find ${RCLONE_LOG_DIR}/*.log -mtime +${RCLONE_LOG_ROTATE} -type f -delete && rm -f ${RCLONE_LOG_DIR}/tmp.log
+    touch ${RCLONE_LOG_DIR}/tmp.log
+    find ${RCLONE_LOG_DIR}/*.log -mtime +${RCLONE_LOG_ROTATE} -type f -delete
+    rm -f ${RCLONE_LOG_DIR}/tmp.log
   fi
 }
