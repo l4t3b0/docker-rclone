@@ -33,28 +33,35 @@ fi
 RCLONE_LOG_LEVEL=${RCLONE_LOG_LEVEL:=INFO}
 if [[ ! ${RCLONE_LOG_LEVEL} =~ (NONE|DEBUG|INFO|NOTICE|ERROR) ]]; then
   echo "ERROR: rclone log level '${RCLONE_LOG_LEVEL}' is not supported by this container, please use NONE|DEBUG|INFO|NOTICE|ERROR. Stopping."
-  exit -7
+  exit -6
 fi
 
 RCLONE_LOG_ROTATE=${RCLONE_LOG_ROTATE:=30}
 RCLONE_LOG_DIR=${RCLONE_LOG_DIR:=/var/log/rclone}
 if [ ! -d ${RCLONE_LOG_DIR} ]; then
   echo "ERROR: rclone log directory '${RCLONE_LOG_DIR}' does not exist"
-  exit -3
+  exit -7
 elif [ ! -w ${RCLONE_LOG_DIR} ]; then
   echo "ERROR: rclone log directory '${RCLONE_LOG_DIR}' exists, but write permission is not granted"
-  exit -4
+  exit -8
+fi
+
+if [ -z ${RCLONE_LOG_FILE} ]; then
+  d=$(date +%Y_%m_%d-%H_%M_%S)
+  RCLONE_LOG_FILE="${RCLONE_LOG_DIR}/rclone-$d.log"
+  echo "INFO: RCLONE_LOG_FILE was set to '${RCLONE_LOG_FILE}'"
 fi
 
 RCLONE_PID_DIR=${RCLONE_PID_DIR:=/var/run/rclone}
 if [ ! -d ${RCLONE_PID_DIR} ]; then
   echo "ERROR: rclone pid directory '${RCLONE_PID_DIR}' does not exist"
-  exit -3
+  exit -10
 elif [ ! -w ${RCLONE_PID_DIR} ]; then
   echo "ERROR: rclone pid directory '${RCLONE_PID_DIR}' exists, but write permission is not granted"
-  exit -4
+  exit -11
 fi
-RCLONE_PID_FILE=${RCLONE_PID_DIR}/rclone.pid
+
+RCLONE_PID_FILE=${RCLONE_PID_DIR}/${RCLONE_PID_FILE:=rclone.pid}
 
 is_rclone_running() {
   if [ $(lsof | grep $0 | wc -l | tr -d ' ') -gt 1 ]
@@ -87,15 +94,11 @@ is_remote_exists() {
 rclone_cmd_exec() {
   CMD="${RCLONE_EXEC} ${RCLONE_CMD} ${RCLONE_CMD_OPTS} '${RCLONE_SRC}' '${RCLONE_DST}'"
   CMD="${CMD} --config '${RCLONE_CONFIG_FILE}'"
-
-  if [[ ${RCLONE_LOG_LEVEL} != "NONE" ]]
-  then
-    d=$(date +%Y_%m_%d-%H_%M_%S)
-    RCLONE_LOG_FILE="${RCLONE_LOG_DIR}/rclone-$d.log"
-    CMD="${CMD} --log-file='${RCLONE_LOG_FILE}' --log-level ${RCLONE_LOG_LEVEL}"
-  fi
+  CMD="${CMD} --log-file='${RCLONE_LOG_FILE}' --log-level ${RCLONE_LOG_LEVEL}"
 
   echo "INFO: Executing: ${CMD}"
+  echo "INFO: Executing: ${CMD}" >> ${RCLONE_LOG_LEVEL}
+
   set +e
   eval ${CMD}
   return_code=$?
