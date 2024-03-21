@@ -61,7 +61,10 @@ elif [ ! -w ${RCLONE_PID_DIR} ]; then
   exit -11
 fi
 
-RCLONE_PID_FILE=${RCLONE_PID_DIR}/${RCLONE_PID_FILE:=rclone.pid}
+if [ -z ${RCLONE_PID_FILE} ]; then
+  RCLONE_PID_FILE="${RCLONE_PID_DIR}/rclone.pid"
+  echo "INFO: RCLONE_PID_FILE was set to '${RCLONE_PID_FILE}'"
+fi
 
 is_rclone_running() {
   if [ $(lsof | grep $0 | wc -l | tr -d ' ') -gt 1 ]

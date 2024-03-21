@@ -37,7 +37,7 @@ function get_rclone_jobs() {
 
 set -e
 
-echo "INFO: Starting sync.sh pid $$ $(date)"
+echo "INFO: Starting rclone-sync.sh pid $$ $(date)"
 
 if is_rclone_running
 then
@@ -64,13 +64,13 @@ else
       if is_remote_exists ${RCLONE_SRC}
       then
         echo "${RCLONE_CMD} from '${RCLONE_SRC}' to '${RCLONE_DST}'"
-#        rclone_cmd_exec
+        rclone_cmd_exec
 
-#        return_code=$?
+        return_code=$?
       else
         echo "WARNING: Source directory \"${RCLONE_SRC}\" does not exists."
 
-#        return_code=1
+        return_code=1
       fi
     fi
   done
