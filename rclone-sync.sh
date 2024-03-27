@@ -44,8 +44,6 @@ else
   echo $$ > ${RCLONE_PID_FILE}
   debug "PID file created successfuly: ${RCLONE_PID_FILE}"
 
-  healthchecks_io_start
-
   rotate_logs
 
   get_rclone_jobs
