@@ -108,7 +108,7 @@ rclone_cmd_exec() {
 
   eval ${CMD}
   return_code=$?
-  if [ ${return_code} ]; then
+  if [ ${return_code} -eq 0 ]; then
     debug "rclone cmd finished successfully"
   else
     error "rclone cmd finished with exit code: ${return_code}"

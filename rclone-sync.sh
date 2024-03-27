@@ -73,9 +73,10 @@ else
       if is_remote_exists ${RCLONE_SRC}
       then
         info "${RCLONE_CMD} from '${RCLONE_SRC}' to '${RCLONE_DST}'"
-        rclone_cmd_exec
 
-        return_code=$?
+        if [ rclone_cmd_exec ]; then
+          error "Source directory \"${RCLONE_SRC}\" does not exists."
+	fi
       else
         error "Source directory \"${RCLONE_SRC}\" does not exists."
 
