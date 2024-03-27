@@ -61,7 +61,7 @@ else
     else
       if is_remote_exists ${RCLONE_SRC}
       then
-        debug "${RCLONE_CMD} from '${RCLONE_SRC}' to '${RCLONE_DST}'"
+        info "${RCLONE_CMD} from '${RCLONE_SRC}' to '${RCLONE_DST}'"
         rclone_cmd_exec
 
         return_code=$?
