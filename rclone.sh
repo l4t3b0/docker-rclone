@@ -84,7 +84,7 @@ is_remote_exists() {
   else
     CMD="${RCLONE_EXEC} lsf --max-depth 1 ${RCLONE_CMD_OPTS:-} '${remote}' --config ${RCLONE_CONFIG_FILE}"
 
-    info "Executing: ${CMD}"
+    debug "Executing: ${CMD}"
     eval ${CMD}
     return_code=$?
   fi
@@ -97,8 +97,8 @@ rclone_cmd_exec() {
   CMD="${CMD} --config '${RCLONE_CONFIG_FILE}'"
   CMD="${CMD} --log-file='${RCLONE_LOG_FILE}' --log-level ${RCLONE_LOG_LEVEL}"
 
-  info "Executing: ${CMD}"
-  info "Executing: ${CMD}" >> ${RCLONE_LOG_LEVEL}
+  debug "Executing: ${CMD}"
+  echo "Executing: ${CMD}" >> ${RCLONE_LOG_LEVEL}
 
   eval ${CMD}
   return_code=$?
@@ -112,7 +112,7 @@ rotate_logs() {
   then
     info "Removing logs older than ${RCLONE_LOG_ROTATE} days" 
     touch ${RCLONE_LOG_DIR}/tmp.log
-    find ${RCLONE_LOG_DIR}/*.log -mtime +${RCLONE_LOG_ROTATE} -type f -delete
+    find ${RCLONE_LOG_DIR}/*.log -mtime +${RCLONE_LOG_ROTATE} -type f -delete -print
     rm -f ${RCLONE_LOG_DIR}/tmp.log
   fi
 }
