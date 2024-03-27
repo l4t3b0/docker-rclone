@@ -34,6 +34,12 @@ function get_rclone_jobs() {
 
 . output.sh
 . rclone.sh
+. healthchecks.io.sh
+
+cleanup()
+{
+  healthchecks_io_end ${1:-}
+}
 
 info "Starting rclone-sync.sh pid $$ $(date)"
 
@@ -41,6 +47,9 @@ if is_rclone_running
 then
   warn "A previous rclone instance is still running. Skipping new command."
 else
+  healthchecks_io_start
+  trap cleanup ERR
+
   echo $$ > ${RCLONE_PID_FILE}
   debug "PID file created successfuly: ${RCLONE_PID_FILE}"
 

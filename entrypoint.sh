@@ -11,12 +11,6 @@ DEFAULT_GROUP=rclone
 . /usr/bin/output.sh
 . /usr/bin/crontab-helper.sh
 . /usr/bin/environment.sh
-. /usr/bin/healthchecks.io.sh
-
-cleanup()
-{
-  healthchecks_io_end ${return_code}
-}
 
 rm -f /tmp/sync.pid
 
@@ -29,9 +23,6 @@ else
 
   echo $$ > ${RCLONE_PID_FILE}
   debug "PID file created successfuly: ${RCLONE_PID_FILE}"
-
-  healthchecks_io_start
-  trap cleanup ERR
 
   if [ -z "${SYNC_ON_STARTUP}" ]
   then
