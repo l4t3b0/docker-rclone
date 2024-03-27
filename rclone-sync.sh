@@ -38,7 +38,11 @@ function get_rclone_jobs() {
 
 cleanup()
 {
-  healthchecks_io_end ${1:-}
+  local exit_code=$?
+
+  info "Cleanup process initiated with return code: ${exit_code}"
+
+  healthchecks_io_end ${exit_code}
 }
 
 info "Starting rclone-sync.sh pid $$ $(date)"
@@ -48,7 +52,7 @@ then
   warn "A previous rclone instance is still running. Skipping new command."
 else
   healthchecks_io_start
-  trap cleanup ERR
+  trap cleanup ERR EXIT
 
   echo $$ > ${RCLONE_PID_FILE}
   debug "PID file created successfuly: ${RCLONE_PID_FILE}"
@@ -75,7 +79,7 @@ else
       else
         error "Source directory \"${RCLONE_SRC}\" does not exists."
 
-        return_code=1
+	exit 1
       fi
     fi
   done
