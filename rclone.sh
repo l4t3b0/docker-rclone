@@ -77,6 +77,7 @@ is_rclone_running() {
 
 is_remote_exists() {
   local remote=$1
+  declare -i return_code
 
   if [ -z "${remote}" ]
   then
@@ -89,9 +90,9 @@ is_remote_exists() {
     eval ${CMD}
     return_code=$?
     if [ ${return_code} -eq 0 ]; then
-      debug "rclone cmd finished successfully"
+      debug "rclone list cmd finished successfully"
     else
-      error "rclone cmd finished with exit code: ${return_code}"
+      error "rclone list cmd finished with exit code: ${return_code}"
     fi
   fi
 
