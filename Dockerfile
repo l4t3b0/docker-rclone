@@ -47,7 +47,7 @@ COPY --chmod=555 \
   crontab-helper.sh \
   environment.sh \
   healthchecks.io.sh \
-  logging.sh \
+  output.sh \
   rclone.sh \
   rclone-sync.sh \
   rclone-sync-abort.sh \
