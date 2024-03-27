@@ -5,7 +5,7 @@
 call_webhook(){
   [[ -z "$1" ]] && return 0
   [[ ! "$1" == "http"* ]] && return 0
-  if curl -s "$1" > /dev/null ; then
+  if curl curl --connect-timeout 5 --max-time 10 --retry 3 -s "$1" > /dev/null ; then
     debug "Call webhook to [$1]: OK"
   else
     debug "Call webhook to [$1]: FAILED"
