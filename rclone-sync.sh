@@ -74,11 +74,13 @@ else
       then
         info "${RCLONE_CMD} from '${RCLONE_SRC}' to '${RCLONE_DST}'"
 
-        if [ ! rclone_cmd_exec ]; then
+	if rclone_cmd_exec; then
+          debug "rclone command finished successfully"
+        else
           error "rclone command finished with error: $?"
 
-	  exit 1
-	fi
+          exit 1
+        fi
       else
         error "Source directory \"${RCLONE_SRC}\" does not exists?"
 
