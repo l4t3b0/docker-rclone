@@ -1,14 +1,16 @@
 #!/bin/sh
 
+. logging.sh
+
 healthchecks_io_start() {
   local url
 
-  if [ ! -z "${HEALTHCHECKS_IO_URL}" ]
+  if [ ! -z "${HEALTHCHECKS_IO_URL:-}" ]
   then
     url=${HEALTHCHECKS_IO_URL}/start
-    echo "INFO: Sending helatchecks.io start signal to '${url}'"
+    info "Sending helatchecks.io start signal to '${url}'"
 
-    wget ${url} -O /dev/null -q -S 2>&1 |head -n 1
+    wget ${url} -O /dev/null
   fi
 }
 
@@ -22,12 +24,12 @@ healthchecks_io_end() {
     if [ "${return_code}" == 0 ]
     then
       url=${HEALTHCHECKS_IO_URL}
-      echo "INFO: Sending helatchecks.io complete signal to '${url}'"
+      info "Sending helatchecks.io complete signal to '${url}'"
     else
       url=${HEALTHCHECKS_IO_URL}/fail
-      echo "WARNING: Sending helatchecks.io failure signal to '${url}'"
+      warn "Sending helatchecks.io failure signal to '${url}'"
     fi
 
-    wget ${url} -O /dev/null -q -S 2>&1 |head -n 1
+    wget ${url} -O /dev/null
   fi
 }

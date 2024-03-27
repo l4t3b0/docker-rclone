@@ -4,25 +4,26 @@ set -e
 
 DEFAULT_USER=rclone
 DEFAULT_GROUP=rclone
-. /usr/bin/environment.sh
 
+. /usr/bin/logging.sh
+. /usr/bin/environment.sh
 . /usr/bin/crontab-helper.sh
 
 
 rm -f /tmp/sync.pid
 
 # Announce version
-echo "INFO: Running $(rclone --version | head -n 1)"
+info "Running $(rclone --version | head -n 1)"
 
 if [ -z "${SYNC_ON_STARTUP}" ]
 then
-  echo "INFO: Set SYNC_ON_STARTUP environment variable to perform a sync on startup"
+  info "Set SYNC_ON_STARTUP environment variable to perform a sync on startup"
 else
   su "${USER}" -c /usr/bin/rclone-sync.sh
 fi
 
 if [ -z ${CRON_EXPR} ]; then
-  echo "INFO: Environment variable 'CRON_EXPR' is not set. No crontab will be defined."
+  info "Environment variable 'CRON_EXPR' is not set. No crontab will be defined."
 else
   declare -r crontab_log_file=${RCLONE_LOG_DIR}/rclone-sync.crontab.log
 
