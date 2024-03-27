@@ -1,6 +1,6 @@
 #!/bin/sh
 
-. logging.sh
+. output.sh
 
 call_webhook(){
   [[ -z "$1" ]] && return 0

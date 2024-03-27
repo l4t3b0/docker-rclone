@@ -1,6 +1,6 @@
 #!/bin/bash
 
-. logging.sh
+. output.sh
 
 if [ ! -z "${PGID}" ]; then
   GROUP=$(getent group "${PGID}" | cut -d: -f1)
@@ -17,7 +17,7 @@ if [ ! -z "${PGID}" ]; then
 
     info "Group '${GROUP}' (${PGID}) created successfully"
   else
-    debug "Group '${GROUP}' (${PGID}) will be used"
+    info "Group '${GROUP}' (${PGID}) will be used"
   fi
 fi
 
@@ -51,10 +51,10 @@ fi
 
 # Set time zone if passed in
 if [ -z "${TZ}" ]; then
-  debug "No timezone is defined. Using default"
+  info "No timezone is defined. Using default"
 else
   cp /usr/share/zoneinfo/${TZ} /etc/localtime
   echo ${TZ} > /etc/timezone
 
-  info "Timezone '${TZ}' is set"
+  debug "Timezone '${TZ}' is set"
 fi

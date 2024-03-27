@@ -1,10 +1,5 @@
 #!/bin/bash
 
-# set strict mode -  via http://redsymbol.net/articles/unofficial-bash-strict-mode/
-# removed -e because it made basic [[ testing ]] difficult
-set -uo pipefail
-IFS=$'\n\t'
-
 unset RCLONE_JOBS_ARRAY
 declare -A RCLONE_JOBS_ARRAY
 
@@ -37,9 +32,8 @@ function get_rclone_jobs() {
   fi
 }
 
-. logging.sh
+. output.sh
 . rclone.sh
-. healthchecks.io.sh
 
 info "Starting rclone-sync.sh pid $$ $(date)"
 
@@ -48,7 +42,7 @@ then
   warn "A previous rclone instance is still running. Skipping new command."
 else
   echo $$ > ${RCLONE_PID_FILE}
-  info "PID file created successfuly: ${RCLONE_PID_FILE}"
+  debug "PID file created successfuly: ${RCLONE_PID_FILE}"
 
   healthchecks_io_start
 
@@ -78,8 +72,6 @@ else
       fi
     fi
   done
-
-  healthchecks_io_end ${return_code}
 
   debug "Removing PID file"
   rm -f ${RCLONE_PID_FILE}

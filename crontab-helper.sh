@@ -1,6 +1,6 @@
 #!/bin/bash
 
-. logging.sh
+. output.sh
 
 crontab_add() {
   local cron_expr=$1
