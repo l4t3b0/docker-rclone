@@ -42,4 +42,5 @@ warn() {
 die() {
   out "💀 ${col_onred}EXIT${col_reset}: $*" >&2
   tput bel
+  exit 1
 }
