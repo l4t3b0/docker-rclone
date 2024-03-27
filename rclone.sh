@@ -85,8 +85,14 @@ is_remote_exists() {
     CMD="${RCLONE_EXEC} lsf --max-depth 1 ${RCLONE_CMD_OPTS:-} '${remote}' --config ${RCLONE_CONFIG_FILE}"
 
     debug "Executing: ${CMD}"
+
     eval ${CMD}
     return_code=$?
+    if [ ${return_code} ]; then
+      debug "rclone cmd finished successfully"
+    else
+      error "rclone cmd finished with exit code: ${return_code}"
+    fi
   fi
 
   return ${return_code}
@@ -102,6 +108,11 @@ rclone_cmd_exec() {
 
   eval ${CMD}
   return_code=$?
+  if [ ${return_code} ]; then
+    debug "rclone cmd finished successfully"
+  else
+    error "rclone cmd finished with exit code: ${return_code}"
+  fi
 
   return ${return_code}
 }
