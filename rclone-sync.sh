@@ -41,8 +41,6 @@ function get_rclone_jobs() {
 . rclone.sh
 . healthchecks.io.sh
 
-set -e
-
 info "Starting rclone-sync.sh pid $$ $(date)"
 
 if is_rclone_running
