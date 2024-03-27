@@ -4,7 +4,7 @@
 
 call_webhook(){
   [[ -z "$1" ]] && die "No URL defined for callig healthchecks.io"
-  [[ ! "$1" == "http"* ]] && die "URL must be http when calling healthchecks.io [$1]
+  [[ ! "$1" == "http"* ]] && die "URL must be http when calling healthchecks.io [$1]"
 
   if curl curl --connect-timeout 5 --max-time 10 --retry 3 -s "$1" > /dev/null ; then
     debug "Call webhook to [$1]: OK"

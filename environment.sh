@@ -50,7 +50,7 @@ else
 fi
 
 # Set time zone if passed in
-if [ -z "${TZ}" ]; then
+if [ -z "${TZ:-}" ]; then
   info "No timezone is defined. Using default"
 else
   cp /usr/share/zoneinfo/${TZ} /etc/localtime
