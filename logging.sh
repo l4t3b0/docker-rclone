@@ -1,3 +1,4 @@
+quiet=0
 col_reset="\033[0m"
 
 col_blk='\033[0;30m'        # Black
@@ -23,7 +24,11 @@ out() {
 }
 
 debug() {
-  out "ℹ️  DEBUG: $*" >&2
+  out "🟢 DEBUG: $*" >&2
+}
+
+info() {
+  out "ℹ️  ${col_blu}INFO${col_reset}: $*" >&2
 }
 
 error() {

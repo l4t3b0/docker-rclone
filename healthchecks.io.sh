@@ -2,6 +2,16 @@
 
 . logging.sh
 
+call_webhook(){
+  [[ -z "$1" ]] && return 0
+  [[ ! "$1" == "http"* ]] && return 0
+  if curl -s "$1" > /dev/null ; then
+    debug "Call webhook to [$1]: OK"
+  else
+    debug "Call webhook to [$1]: FAILED"
+  fi
+}
+
 healthchecks_io_start() {
   local url
 
@@ -10,7 +20,7 @@ healthchecks_io_start() {
     url=${HEALTHCHECKS_IO_URL}/start
     info "Sending helatchecks.io start signal to '${url}'"
 
-    wget ${url} -O /dev/null
+    call_webhook ${url}
   fi
 }
 
@@ -26,10 +36,10 @@ healthchecks_io_end() {
       url=${HEALTHCHECKS_IO_URL}
       info "Sending helatchecks.io complete signal to '${url}'"
     else
-      url=${HEALTHCHECKS_IO_URL}/fail
+      url=${HEALTHCHECKS_IO_URL}/${return_code}
       warn "Sending helatchecks.io failure signal to '${url}'"
     fi
 
-    wget ${url} -O /dev/null
+    call_webhook ${url}
   fi
 }

@@ -74,7 +74,7 @@ else
 
         return_code=$?
       else
-        warn "Source directory \"${RCLONE_SRC}\" does not exists."
+        error "Source directory \"${RCLONE_SRC}\" does not exists."
 
         return_code=1
       fi

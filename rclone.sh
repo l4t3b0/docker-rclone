@@ -85,10 +85,8 @@ is_remote_exists() {
     CMD="${RCLONE_EXEC} lsf --max-depth 1 ${RCLONE_CMD_OPTS:-} '${remote}' --config ${RCLONE_CONFIG_FILE}"
 
     info "Executing: ${CMD}"
-    set +e
     eval ${CMD}
     return_code=$?
-    set -e
   fi
 
   return ${return_code}
@@ -102,10 +100,8 @@ rclone_cmd_exec() {
   info "Executing: ${CMD}"
   info "Executing: ${CMD}" >> ${RCLONE_LOG_LEVEL}
 
-  set +e
   eval ${CMD}
   return_code=$?
-  set -e
 
   return ${return_code}
 }
